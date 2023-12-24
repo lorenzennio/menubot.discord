@@ -22,12 +22,9 @@ async def on_message(message):
 
     if message.content.startswith('menu'):
         menu = essen.get_today_menu("mensa-garching")
-        menu = essen.get_week_menu("mensa-garching", 2023, 40)[0]
-        if not menu:
-            await message.channel.send("Heut gibt's nix!")
-        else:
-            for dish in menu["dishes"]:
-                await message.channel.send(f"{essen.dish_types[dish['dish_type']]} {dish['name']} \n")
+        # menu = essen.get_week_menu("mensa-garching", 2023, 40)[0]
+        menu_message = essen.print_menu(menu)
+        await message.channel.send(menu_message)
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
