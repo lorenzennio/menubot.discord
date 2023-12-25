@@ -3,26 +3,34 @@
 import os
 import datetime
 import discord
-from discord.ext import tasks
 import essen
 
 from dotenv import load_dotenv
+
+load_dotenv()
+TOKEN = os.getenv('DISCORD_TOKEN')
+CHANNEL = int(os.getenv('CHANNEL'))
+
+print(type(CHANNEL))
 
 intents = discord.Intents.default()
 intents.message_content = True
 
 client = discord.Client(intents=intents)
 
-foodtime = datetime.time(hour=19, minute=33, second=0) #Create the time on which the task should always run
+#Create the time on which the task should always run
+# in UTC time  (CET time - 1 hour)
+foodtime = datetime.time(hour=10, minute=30)
 
-@tasks.loop(time=foodtime) #Create the task
+@discord.ext.tasks.loop(time = foodtime) #Create the task
 async def menu():
-    channel = client.get_channel(1188499642699231254)
+    print('Send menu')
+    channel = client.get_channel(CHANNEL)
     menu = essen.get_today_menu("mensa-garching")
-    # menu = essen.get_week_menu("mensa-garching", 2023, 40)[0]
-    menu_message = essen.print_menu(menu)
-    await channel.send("Time for lunch!")
-    await channel.send(menu_message)
+    if menu:
+        menu_message = essen.print_menu(menu)
+        await channel.send("Time for lunch!")
+        await channel.send(menu_message)
 
 @client.event
 async def on_ready():
@@ -37,10 +45,7 @@ async def on_message(message):
 
     if message.content.startswith('menu'):
         menu = essen.get_today_menu("mensa-garching")
-        # menu = essen.get_week_menu("mensa-garching", 2023, 40)[0]
         menu_message = essen.print_menu(menu)
         await message.channel.send(menu_message)
 
-load_dotenv()
-TOKEN = os.getenv('DISCORD_TOKEN')
 client.run(TOKEN)

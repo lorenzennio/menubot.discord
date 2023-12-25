@@ -44,7 +44,10 @@ canteens = [
 
 def get_week_menu(canteen: str, year: int, week_number: int) -> List[Dict]:
     response = requests.get(f"{base_url}/{canteen}/{year}/{week_number}.json")
-    return response.json()["days"]
+    try:
+        return response.json()["days"]
+    except:
+        return []
 
 
 def get_today_menu(canteen: str) -> Dict:
