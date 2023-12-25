@@ -3,6 +3,7 @@
 import os
 import datetime
 import discord
+from discord.ext import tasks
 import essen
 
 from dotenv import load_dotenv
@@ -10,8 +11,6 @@ from dotenv import load_dotenv
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 CHANNEL = int(os.getenv('CHANNEL'))
-
-print(type(CHANNEL))
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -22,7 +21,7 @@ client = discord.Client(intents=intents)
 # in UTC time  (CET time - 1 hour)
 foodtime = datetime.time(hour=10, minute=30)
 
-@discord.ext.tasks.loop(time = foodtime) #Create the task
+@tasks.loop(time = foodtime) #Create the task
 async def menu():
     print('Send menu')
     channel = client.get_channel(CHANNEL)
