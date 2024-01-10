@@ -1,0 +1,10 @@
+[Unit]
+Description=Menubot
+
+[Service]
+WorkingDirectory=/home/l/Lorenz.Gaertner/menubot.discord
+ExecStart=/filer/z-sv-pool12c/l/Lorenz.Gaertner/micromamba/envs/discord/bin/python bot.py &
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

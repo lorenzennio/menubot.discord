@@ -19,7 +19,7 @@ client = discord.Client(intents=intents)
 
 #Create the time on which the task should always run
 # in UTC time  (CET time - 1 hour)
-foodtime = datetime.time(hour=10, minute=30)
+foodtime = datetime.time(hour=10, minute=25)
 
 @tasks.loop(time = foodtime) #Create the task
 async def menu():
@@ -42,7 +42,7 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    if message.content.startswith('menu'):
+    if message.content.startswith('lunch menu'):
         menu = essen.get_today_menu("mensa-garching")
         menu_message = essen.print_menu(menu)
         await message.channel.send(menu_message)
