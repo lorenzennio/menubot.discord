@@ -1,5 +1,3 @@
-# This example requires the 'message_content' intent.
-
 import os
 import datetime
 import discord
@@ -16,6 +14,7 @@ intents = discord.Intents.default()
 intents.message_content = True
 
 client = discord.Client(intents=intents)
+tree = discord.app_commands.CommandTree(client)
 
 #Create the time on which the task should always run
 # in UTC time  (CET time - 1 hour)
@@ -31,11 +30,15 @@ async def menu():
         await channel.send("Time for lunch!")
         await channel.send(menu_message)
 
+
 @client.event
 async def on_ready():
     if not menu.is_running():
         menu.start() #If the task is not already running, start it.
         print("Menu task started")
+        await tree.sync()
+        print("Command tree synced")
+        
 
 @client.event
 async def on_message(message):
@@ -46,5 +49,11 @@ async def on_message(message):
         menu = essen.get_today_menu("mensa-garching")
         menu_message = essen.print_menu(menu)
         await message.channel.send(menu_message)
+
+
+@tree.command(name = "commandname", description = "My first application Command")
+async def first_command(interaction):
+    await interaction.response.send_message("Hello!")
+    
 
 client.run(TOKEN)
