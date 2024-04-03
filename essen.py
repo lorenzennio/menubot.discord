@@ -13,6 +13,7 @@ dish_types = {
     "Studitopf": "💸",
     "Vegetarisch": "🥕",
     "Vegetarisch/fleischlos": "🥕",
+    "Vegan": "🥕",
     "Fleisch": "🥩",
     "Süßspeise": "🍭",
     "Fisch": "🐟",
