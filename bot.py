@@ -2,6 +2,7 @@
 
 import os
 import datetime
+from zoneinfo import ZoneInfo
 import discord
 from discord.ext import tasks
 import essen
@@ -18,8 +19,7 @@ intents.message_content = True
 client = discord.Client(intents=intents)
 
 #Create the time on which the task should always run
-# in UTC time  (CET time - 1 hour)
-foodtime = datetime.time(hour=10, minute=25)
+foodtime = datetime.time(hour=11, minute=25, tzinfo=ZoneInfo("Europe/Berlin"))
 
 @tasks.loop(time = foodtime) #Create the task
 async def menu():
