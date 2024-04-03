@@ -13,7 +13,7 @@ CHANNEL=...
 ## Running
 
 Run via `systemctl`:
-- `cp discordbot.service ~/.local/lib/systemd/system`
+- `cp discordbot.service ~/.config/systemd/user`
 - `systemctl --user enable discordbot.service`
 - `systemctl --user start discordbot.service`
 
